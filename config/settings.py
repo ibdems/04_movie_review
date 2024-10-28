@@ -246,18 +246,6 @@ ACCOUNT_SESSION_REMEMBER = True
 
 AUTH_USER_MODEL = 'myauth.User'
 
-# Client id google
-# 153910620139-djuvt9un1p58d2n14r5cn5n060tmhiie.apps.googleusercontent.com
-
-# Secret client google
-# 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
-
-
-# Id app facebook
-# 23015540472832
-
-# Secrete key facebool
-# 73ebf77f5e7eeeb819bd17543c4b9c40
 
 
 # Pour django debug toolbar
