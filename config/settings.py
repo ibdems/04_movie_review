@@ -99,7 +99,7 @@ DATABASES = {
         'ENGINE': config('DB_ENGINE'),
         'NAME': config('DB_NAME'),
         'USER': config('DB_USER'),
-        'PASSWORD': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
         'HOST': config('DB_HOST'),
         'PORT': config('DB_PORT'),
     }
@@ -142,7 +142,7 @@ SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'APP': {
             'client_id': config('FACEBOOK_CLIENT_ID'), 
-            'secret': config('GOOGLE_SECRET'),
+            'secret': config('FACEBOOK_SECRET'),
             'key': ''
         },
         'METHOD': 'oauth2',

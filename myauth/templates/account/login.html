@@ -1,0 +1,88 @@
+{% load static %}
+{% load i18n %}
+{% load allauth account %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>{% block title %}Se Connecter{% endblock title %}</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+
+    <!-- Favicons -->
+    <link href="{% static 'assets/img/favicon.png' %}" rel="icon" />
+    <link
+      href="{% static 'assets/img/apple-touch-icon.png' %}"
+      rel="apple-touch-icon"
+    />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&amp;family=Poppins:wght@100;400;700&amp;display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link
+      href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}"
+      rel="stylesheet"
+    />
+    <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet" />
+    <link
+      href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}"
+      rel="stylesheet"
+    />
+
+    <!-- Main CSS File -->
+    <link href="{% static 'assets/css/main.css' %}" rel="stylesheet" />
+</head>
+<body class="vh-100 d-flex align-items-center justify-content-center bg-dark">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6" style="background-color: #11111170;">
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <p class="alert alert-danger">{{ error }}</p> 
+                    {% endfor %}
+                {% endif %}
+                <form method="post" action="{% url 'account_login' %}" class="p-1 shadow">
+                    {% csrf_token %}
+                    <label for="email" class="fw-bold text-light">Email</label>
+                    <input type="email" name="login" class="form-control mb-3 bg-transparent text-light" required>
+                    
+                    <label for="password" class="fw-bold text-light">Mot de Passe</label>
+                    <input type="password" name="password" class="form-control mb-3 bg-transparent text-light" required>
+
+                    <div class="form-check mb-3">
+                        <input type="checkbox" name="remember" class="form-check-input" id="remember_me">
+                        <label for="remember_me" class="form-check-label text-light">Se souvenir de moi</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Se Connecter</button>
+                    <div class="text-center mt-2 text-white">J'ai pas un compte, <a href="{% url 'account_signup' %}" class="text-warning text-center">M'iscrire</a></div>
+                    <div class="text-center"><a href="{% url 'account_reset_password' %}" class="text-center text-warning">Mot de passe oublié</a></div>
+                    <hr>
+                    <a href="{% provider_login_url 'google' %}" class="btn btn-dark btn-block mb-2 w-100">
+                        <img src="{% static 'assets/img/google.png' %}" class="icon-connexion">Se Connecter avec Google
+                    </a>
+                    <a href="" class="btn btn-dark btn-block w-100">
+                        <img src="{% static 'assets/img/facebook.png' %}" class="icon-connexion" alt="">Se Connecter avec Facebook
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,142 @@
+{% load static %}
+{% load i18n %}
+{% load allauth account %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>{% block title %}Inscription{% endblock title %}</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+
+    <!-- Favicons -->
+    <link href="{% static 'assets/img/favicon.png' %}" rel="icon" />
+    <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon" />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&amp;family=Poppins:wght@100;400;700&amp;display=swap"
+        rel="stylesheet" />
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet" />
+
+    <!-- Main CSS File -->
+    <link href="{% static 'assets/css/main.css' %}" rel="stylesheet" />
+</head>
+
+<body class="vh-100 d-flex align-items-center justify-content-center bg-dark">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-8" style="background-color: #11111170;">
+                {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                <p class="alert alert-danger">{{ error }}</p>
+                {% endfor %}
+                {% endif %}
+                <h3 class="text-center mt-2 text-light">Inscription</h3>
+                <form method="post" action="{% url 'account_signup' %}" class="p-4 shadow">
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class=" mb-3 mb-md-0">
+                                <label for="inputFirstName" class="form-label text-light" >Prenom</label>
+                                <input class="form-control bg-transparent text-light {% if form.first_name.errors %}is-invalid{% endif %}"
+                                    id="inputFirstName" type="text" name='first_name'
+                                    placeholder="Enter your first name" />
+                                
+                                {% if form.first_name.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.first_name.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3 mb-md-0">
+                                <label for="inputLastName" class="form-label text-light">Nom</label>
+                                <input class="form-control bg-transparent text-light {% if form.last_name.errors %}is-invalid{% endif %}"
+                                    id="inputLastName" type="text" name="last_name"
+                                    placeholder="Enter your last name" />
+                                {% if form.last_name.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.last_name.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" mb-3">
+                        <label for="inputEmail" class="text-light">Email</label>
+                        <input class="form-control bg-transparent text-light {% if form.email.errors %}is-invalid{% endif %}" id="inputEmail"
+                            type="email" name='email' placeholder="name@example.com" />
+                        {% if form.email.errors %}
+                        <div class="invalid-feedback">
+                            {{ form.email.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class=" mb-3 mb-md-0">
+                                <label for="inputUsername" class="text-white">Mot de passe</label>
+                                <input class="form-control bg-transparent text-light {% if form.password1.errors %}is-invalid{% endif %}"
+                                    id="inputUsername" type="password" name='password1' placeholder="Mot de passe" />
+                                {% if form.password1.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.password1.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class=" mb-3 mb-md-0">
+                                <label for="inputPassword" class="text-white">Confirmez le mot de passe</label>
+                                <input class="form-control bg-transparent text-light {% if form.password2.errors %}is-invalid{% endif %}"
+                                    id="inputPassword" type="password" name='password2'
+                                    placeholder="Mot de passe de confirmation" />
+                                
+                                {% if form.password2.errors %}
+                                <div class="invalid-feedback">
+                                    {{ form.password2.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Valider</button>
+                    <div class="text-center mt-2 text-light">
+                        J'ai un compte <a href="{% url 'account_login' %}" class="text-warning">Me Connecter</a>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="{% provider_login_url 'google' %}" class="btn btn-dark btn-block mb-2 w-100">
+                        <img src="{% static 'assets/img/google.png' %}" class="icon-connexion">Uitliser mon compte google
+                    </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{% provider_login_url 'facebook' %}" class="btn btn-dark btn-block w-100">
+                        <img src="{% static 'assets/img/facebook.png' %}" class="icon-connexion" alt="">Utiliser mon compte facebook
+                    </a>
+                        </div>
+                    </div>
+                    
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

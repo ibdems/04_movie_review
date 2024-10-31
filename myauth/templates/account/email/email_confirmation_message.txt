@@ -1,0 +1,10 @@
+Bonjour {{ user.email }},
+
+Merci de vous être inscrit sur notre plateforme. Veuillez confirmer votre adresse e-mail en cliquant sur le lien ci-dessous :
+
+{{ activate_url }}
+
+Si vous n'avez pas demandé cette inscription, ignorez cet e-mail.
+
+Merci,
+L'équipe {{ current_site.name }}
