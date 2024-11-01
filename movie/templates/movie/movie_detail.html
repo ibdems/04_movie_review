@@ -1,0 +1,216 @@
+{% extends "movie/base.html" %}
+{% block title %}
+Detail-view
+{% endblock title %}
+
+{% block content %}
+<div class="page-title light-background">
+  <div class="container d-lg-flex justify-content-between align-items-center">
+    <h1 class="mb-2 mb-lg-0">Detail du film</h1>
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="{% url 'index' %}">Liste</a></li>
+        <li class="current">Detail</li>
+      </ol>
+    </nav>
+  </div>
+</div><!-- End Page Title -->
+
+<section id="service-details" class="service-details section">
+  <div class="container">
+    <div class="row gy-5">
+      <div class="col-lg-8" data-aos="fade-up" data-aos-delay="100">
+        <img src="{{movie.poster_url}}" alt="" style="height: 500px; width: 100%;" loading="lazy">
+        <h3>{{movie.titre}}</h3>
+        <div class="row">
+          <div class="col">
+            {{movie.review_movie.count}} Critiques
+          </div>
+          <div class="col text-end">
+            <i class="bi bi-star border-light {% if movie.average_rating >= 1 %} text-warning{% endif %}"></i>
+            <i class="bi bi-star border-light {% if movie.average_rating >= 2 %} text-warning{% endif %}"></i>
+            <i class="bi bi-star border-light {% if movie.average_rating >= 3 %} text-warning{% endif %}"></i>
+            <i class="bi bi-star border-light {% if movie.average_rating >= 4 %} text-warning{% endif %}"></i>
+            <i class="bi bi-star border-light {% if movie.average_rating >= 5 %} text-warning{% endif %}"></i>
+          </div>
+        </div>
+        <div>
+          <span class="fw-bold">Genres :</span> {% for genre in movie.genre.all %}
+          {{genre.name}}
+          {% endfor %}
+        </div>
+        <p>{{movie.synopsis}}</p>
+
+      </div>
+      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+        <h4>Castings</h4>
+        <hr>
+        <div class="row">
+          {% for cast in movie.cast.all %}
+          <div class="col-6">
+            <li>{{cast.name}}</li>
+          </div>
+
+          {% endfor %}
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Critiques et commentaires -->
+    <div class="row">
+      <div class="col-12 col-md-6 mt-2">
+
+        <!-- Afficher les critiques -->
+        {% for review in movie.review_movie.all %}
+        <!-- Information du critiqueur -->
+        <div class="row">
+          <div class="col-2 col-md-1">
+            {% if review.user.profile %}
+            <img src="{{review.user.profile.url}}" alt="" class="img-review">
+
+            {% else %}
+            <img src="" alt="" class="img-review">
+            {% endif %}
+          </div>
+          <div class="col mt-3 ms-2">
+            <h5>{{review.user.first_name}} {{review.user.last_name}}</h5>
+          </div>
+        </div>
+        <!-- Contenu de la critique -->
+        <div class="ms-5">
+          <p>
+            {{review.content}}
+
+            {% if review.user == request.user %}
+            <i class="bi bi-pen ms-2 me-2" title="Modifier" data-bs-toggle="modal" data-bs-target="#editReviewModal-{{review.id}}"></i>
+            <i class="bi bi-trash text-danger" title="Supprimer" data-bs-toggle="modal" data-bs-target="#deleteReviewModal-{{review.id}}"></i>
+            {% endif %}
+              {% if user.is_authenticated %}
+                <i class="bi bi-reply fs-5" title="Repondre" id="repondre"></i>
+
+                <!-- Formulaire pour repondre au critique -->
+                <form action="{% url 'comment' %}" method="post">
+                  {% csrf_token %}
+                  <div class="row d-none" id="form-response">
+                    <div class="col-10">
+                      <input type="hidden" name="review" value="{{review.id}}">
+                      <input type="text" class="form-control bg-transparent text-light border-secondary"
+                        placeholder="Votre commentaire" name="comment">
+                    </div>
+                    <div class="col-2">
+                      <button type="submit" class="bg-transparent mt-1"><i class="bi bi-send fs-4 text-white"></i></button>
+                    </div>
+                  </div>
+
+                </form>
+              {% endif %}
+          </p>
+          <div class="text-end"><small><em>{{review.created_at}}</em></small></div>
+
+          <!-- Action sur la critique -->
+
+
+          <!-- Liste des commentaires associees a cette critique -->
+          {% for comment in review.comment_review.all %}
+          <div class="row ms-2">
+            <div class="col-2 col-md-1">
+              {% if comment.user.profile %}
+              <img src="{{comment.user.profile.url}}" alt="" class="img-comment">
+
+              {% else %}
+              <img src="" alt="" class="img-comment">
+              {% endif %}
+            </div>
+            <div class="col mt-2 ms-2">
+              <h5>{{comment.user.first_name}} {{comment.user.last_name}}</h5>
+            </div>
+          </div>
+          <p class="ms-5">{{comment.comment}}</p>
+          <div class="text-end"><small><em>{{comment.date_published}}</em></small></div>
+          {% endfor %}
+
+        </div>
+
+        <!-- Modale pour la modification de critique -->
+            <div class="modal fade" id="editReviewModal-{{review.id}}" tabindex="-1" aria-labelledby="editReviewLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark">
+                <form action="{% url 'edit_review' review.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                    <h5 class="modal-title text-white" id="editReviewLabel">Modifier votre critique</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <textarea name="content" class="form-control bg-dark text-white">{{ review.content }}</textarea>
+                    <input type="number" min="1" max="5" name="rating" value="{{ review.rating }}" class="form-control mt-2 bg-dark text-white">
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-putline-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-outline-success">Sauvegarder</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+            </div>
+
+            <!-- Modale pour la suppression de critique -->
+            <div class="modal fade" id="deleteReviewModal-{{review.id}}" tabindex="-1" aria-labelledby="deleteReviewLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark">
+                <form action="{% url 'delete_review' review.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                    <h5 class="modal-title text-white" id="deleteReviewLabel">Supprimer la critique</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                    <p class="text-white text-center">Êtes-vous sûr de vouloir supprimer cette critique ?</p>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-outline-danger">Supprimer</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+            </div>
+        {% endfor %}
+
+        <!-- Formulaire pour apportees une critique -->
+        {% if user.is_authenticated %}
+        <form action="" method="post" class="mt-3">
+          {% csrf_token %}
+          <textarea name="content" id="" cols="30" rows="3"
+            class="form-control bg-transparent text-light border-secondary" placeholder="votre critique"></textarea>
+          <div class="row mt-2">
+            <div class="col-4">
+              <input type="number" min="1" max="5" class="form-control bg-transparent text-light border-secondary {% if form.rating.errors %}
+                        is-invalid
+                      {% endif %}" placeholder="Note du film" name="rating">
+              {% if form.rating.errors %}
+              <span>form.rating.errors</span>
+              {% endif %}
+            </div>
+            <div class="col">
+              <button type="submit" class="btn btn-outline-secondary ">Faire une critique
+              </button>
+            </div>
+          </div>
+
+
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.getElementById('repondre').addEventListener('click', function click() {
+    document.getElementById('form-response').classList.remove('d-none')
+  })
+</script>
+
+{% endblock content %}

@@ -1,0 +1,201 @@
+{% extends "movie/base.html" %}
+{% block title %}Movie{% endblock title %}
+{% block content %}
+<style>
+  .bgstart {
+    background-color: brown;
+    border-color: brown;
+  }
+
+  .service-item {
+    min-height: 350px;
+    /* Définir une hauteur minimale pour les colonnes */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .service-item p.synopsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .btn-right {
+    display: flex;
+    justify-content: flex-end;
+    border: brown;
+  }
+
+  .button {
+    border: brown 2px solid;
+    background-color: black;
+    padding: 10px;
+  }
+
+  .button:hover {
+    border: black 2px solid;
+    background-color: brown;
+    padding: 10px;
+    color: black;
+  }
+
+  .txt-search,
+  .txt-search:focus {
+    border: brown 1px solid;
+    width: 100%;
+    height: 40px;
+    background-color: transparent;
+    color: white;
+  }
+
+  .btn-search {
+    border: brown 1px solid;
+    width: 100%;
+    height: 40px;
+    background-color: transparent;
+    color: brown;
+  }
+
+  .select-genre,
+  .select-genre:focus {
+    border: brown 1px solid;
+    width: 100%;
+    height: 40px;
+    background-color: transparent;
+    color: white;
+  }
+
+  /* Pour éviter que la couleur change lors de la saisie */
+  .txt-search::placeholder,
+  .select-genre::placeholder {
+    color: white;
+  }
+
+  .select-genre option {
+    background-color: black;
+    color: brown;
+  }
+</style>
+
+<!-- Hero Section -->
+<section id="hero" class="hero section dark-background">
+  <img src="{{movie.poster_url}}" alt="" data-aos="fade-in">
+  <div class="container text-end" data-aos="fade-up" data-aos-delay="100">
+    <div class="row justify-content-center">
+      <div class="col-lg-12">
+        <h2>{{movie.titre}}</h2>
+        <p>{{movie.synopsis|slice:":50"}}</p>
+        <p class="text-end">
+          <i class="bi bi-star border-light {% if movie.average_rating >= 1 %} text-warning{% endif %}"></i>
+          <i class="bi bi-star border-light {% if movie.average_rating >= 2 %} text-warning{% endif %}"></i>
+          <i class="bi bi-star border-light {% if movie.average_rating >= 3 %} text-warning{% endif %}"></i>
+          <i class="bi bi-star border-light {% if movie.average_rating >= 4 %} text-warning{% endif %}"></i>
+          <i class="bi bi-star border-light {% if movie.average_rating >= 5 %} text-warning{% endif %}"></i>
+        </p>
+        <a href="{% url 'detail_movie' movie.uid %}" class="btn-get-started">Detail</a>
+      </div>
+    </div>
+  </div>
+</section><!-- /Hero Section -->
+
+<!-- Liste des films -->
+<section id="services" class="services section light-background">
+  {# movie/index.html #}
+
+  <div class="container">
+    <!-- Recherche et Filtrage -->
+    <form method="GET">
+      <div class="row mb-4" data-aos="fade-up" data-aos-delay="100">
+        <!-- Filtrer par Genre -->
+        <div class="col-md-3 mb-3">
+          {{ filter.form.genre }} 
+        </div>
+
+        <div class="col-md-3 mb-3">
+          {{ filter.form.average_rating }} 
+        </div>
+
+        <!-- Recherche par titre -->
+        <div class="col-md-6 mb-3 d-flex">
+          <div class="col-8 col-md-6 offset-md-2">
+            {{ filter.form.titre }} 
+          </div>
+          <div class="col-4">
+            <button type="submit" class="btn-search ms-2">Rechercher</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+  <!-- Liste des films -->
+  <div class="container">
+    <div class="row gy-4">
+      {% for movie in movies %}
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+        <div class="service-item p-2">
+          {% if movie.poster_url %}
+            <img src="{{movie.poster_url}}" height="250" loading="lazy">
+          {% elif movie.image %}
+            <img src="{{movie.image.url}}" height="250" loading="lazy">
+          {% else %}
+            <img src="" height="250" loading="lazy">
+          {% endif %}
+          <h3>{{ movie.titre }}</h3>
+          <p class="text-start">
+            <span class="fw-bold fs-5">Genre :</span> {% for genre in movie.genre.all|slice:":3" %}
+            {{genre.name}}
+          {% endfor %}
+          </p>
+          {% if movie.synopsis %}
+            <p class="text-start">{{ movie.synopsis|slice:":40" }}{% if movie.synopsis|length > 40 %}...{% endif %}</p>
+          {% else %}
+          .........
+          {% endif %}
+          <div class="row">
+            <div class="col text-start">
+              <em>{{ movie.release_date }}</em>
+            </div>
+            <div class="col">
+              <p class="text-end">
+                <i class="bi bi-star border-light {% if movie.average_rating >= 1 %} text-warning{% endif %}"></i>
+                <i class="bi bi-star border-light {% if movie.average_rating >= 2 %} text-warning{% endif %}"></i>
+                <i class="bi bi-star border-light {% if movie.average_rating >= 3 %} text-warning{% endif %}"></i>
+                <i class="bi bi-star border-light {% if movie.average_rating >= 4 %} text-warning{% endif %}"></i>
+                <i class="bi bi-star border-light {% if movie.average_rating >= 5 %} text-warning{% endif %}"></i>
+              </p>
+            </div>
+          </div>
+          
+
+          <div class="btn-right mt-2">
+            <a href="{% url 'detail_movie' movie.uid %}" class="button">Details</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+  <div class="pagination text-center">
+      <span class="step-links">
+          {% if page_obj.has_previous %}
+              <a href="?page=1" class="button">&laquo; première</a>
+              <a href="?page={{ page_obj.previous_page_number }}" class="button">précédente</a>
+          {% endif %}
+
+          <span class="current">
+              Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
+          </span>
+
+          {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}" class="button">suivante</a>
+              <a href="?page={{ page_obj.paginator.num_pages }}" class="button">dernière &raquo;</a>
+          {% endif %}
+      </span>
+  </div>
+
+</section><!-- /Liste des films -->
+{% endblock content %}
