@@ -109,19 +109,23 @@
       <div class="row mb-4" data-aos="fade-up" data-aos-delay="100">
         <!-- Filtrer par Genre -->
         <div class="col-md-3 mb-3">
+          <label for="">Filtrer par genre</label>
           {{ filter.form.genre }} 
         </div>
 
         <div class="col-md-3 mb-3">
+          <label for="">Filtrer par note</label>
           {{ filter.form.average_rating }} 
         </div>
 
         <!-- Recherche par titre -->
         <div class="col-md-6 mb-3 d-flex">
           <div class="col-8 col-md-6 offset-md-2">
+          <label for="">Rechercher par titre</label>
             {{ filter.form.titre }} 
           </div>
           <div class="col-4">
+            <label for="" class="text-transparent ms-2"> Cliquer </label>
             <button type="submit" class="btn-search ms-2">Rechercher</button>
           </div>
         </div>
