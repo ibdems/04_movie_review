@@ -7,6 +7,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('movie.urls') ),
+    path('api/', include('movie_api.urls')),
     path('accounts/', include('myauth.urls'))
 ]+ debug_toolbar_urls()
 

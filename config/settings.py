@@ -50,6 +50,7 @@ INSTALLED_APPS = [
 
     'movie',
     'myauth',
+    'movie_api',
 ]
 
 ENABLE_ACTIONS = True
