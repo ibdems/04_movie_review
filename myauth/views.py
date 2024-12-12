@@ -1,5 +1,4 @@
 from allauth.account.views import SignupView
-from django.shortcuts import render
 
 from myauth.forms import CustomSignupForm
 

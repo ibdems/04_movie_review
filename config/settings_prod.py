@@ -3,6 +3,7 @@ import os
 import dj_database_url
 import environ
 from settings import *
+
 env = environ.Env(
     DEBUG=(bool, False)  # Par défaut, DEBUG est défini comme un booléen et désactivé (False)
 )

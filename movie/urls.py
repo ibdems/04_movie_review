@@ -1,6 +1,13 @@
 from django.urls import path
 
-from .views import EditReviewView, DeleteReviewView, IndexView, MyProfileView, DetailMovie, CreateCommentView
+from .views import (
+    CreateCommentView,
+    DeleteReviewView,
+    DetailMovie,
+    EditReviewView,
+    IndexView,
+    MyProfileView,
+)
 
 urlpatterns = [
     path("edit-review/<int:pk>/", EditReviewView.as_view(), name="edit_review"),

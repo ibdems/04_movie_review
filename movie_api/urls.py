@@ -7,7 +7,14 @@ from drf_spectacular.views import (
 )
 from rest_framework.routers import DefaultRouter
 
-from .views import GenreViewSet,CastViewSet, ReviewViewSet, CommentViewSet, CreateListMovieView, RetrieveUpdateDestroyMovieView
+from .views import (
+    CastViewSet,
+    CommentViewSet,
+    CreateListMovieView,
+    GenreViewSet,
+    RetrieveUpdateDestroyMovieView,
+    ReviewViewSet,
+)
 
 router = DefaultRouter()
 router.register(r"genre", GenreViewSet)
