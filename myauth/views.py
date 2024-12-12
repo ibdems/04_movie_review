@@ -1,8 +1,10 @@
-from django.shortcuts import render
 from allauth.account.views import SignupView
+from django.shortcuts import render
 
 from myauth.forms import CustomSignupForm
+
 # Create your views here.
+
 
 class CustomSignupView(SignupView):
     form_class = CustomSignupForm

@@ -19,7 +19,7 @@ Movie Review est une application Django permettant aux utilisateurs de consulter
 
 - **Système de notation** : Les utilisateurs peuvent attribuer une note aux films et voir la note moyenne.
 
-- **Système de notation** : Une api pour toutes ces fonctionnalites accessible via: 
+- **Système de notation** : Une api pour toutes ces fonctionnalites accessible via:
 [API Swagger UI](http://127.0.0.1:8000/api/redoc/)
 
 ## Prérequis
@@ -52,12 +52,12 @@ Avant de commencer, assurez-vous d'avoir les prérequis suivants installés :
 
 4. Activez l'environnement virtuel :
     - Sur Windows :
-    
+
     ```bash
     venv\Scripts\activate
     ```
     - Sur macOS/Linux :
-    
+
     ```bash
     source venv/bin/activate
     ```

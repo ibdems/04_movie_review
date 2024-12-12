@@ -53,7 +53,7 @@
                                 <input class="form-control bg-transparent text-light {% if form.first_name.errors %}is-invalid{% endif %}"
                                     id="inputFirstName" type="text" name='first_name'
                                     placeholder="Enter your first name" />
-                                
+
                                 {% if form.first_name.errors %}
                                 <div class="invalid-feedback">
                                     {{ form.first_name.errors }}
@@ -104,7 +104,7 @@
                                 <input class="form-control bg-transparent text-light {% if form.password2.errors %}is-invalid{% endif %}"
                                     id="inputPassword" type="password" name='password2'
                                     placeholder="Mot de passe de confirmation" />
-                                
+
                                 {% if form.password2.errors %}
                                 <div class="invalid-feedback">
                                     {{ form.password2.errors }}
@@ -131,8 +131,8 @@
                     </a>
                         </div>
                     </div>
-                    
-                    
+
+
                 </form>
             </div>
         </div>

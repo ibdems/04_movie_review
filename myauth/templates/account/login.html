@@ -54,14 +54,14 @@
             <div class="col-lg-4 col-md-6" style="background-color: #11111170;">
                 {% if form.non_field_errors %}
                     {% for error in form.non_field_errors %}
-                        <p class="alert alert-danger">{{ error }}</p> 
+                        <p class="alert alert-danger">{{ error }}</p>
                     {% endfor %}
                 {% endif %}
                 <form method="post" action="{% url 'account_login' %}" class="p-1 shadow">
                     {% csrf_token %}
                     <label for="email" class="fw-bold text-light">Email</label>
                     <input type="email" name="login" class="form-control mb-3 bg-transparent text-light" required>
-                    
+
                     <label for="password" class="fw-bold text-light">Mot de Passe</label>
                     <input type="password" name="password" class="form-control mb-3 bg-transparent text-light" required>
 
