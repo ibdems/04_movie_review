@@ -18,4 +18,4 @@ RUN chown -R app:app /app
 # Expose the port that the application listens on.
 EXPOSE 8000
 
-CMD ["uvicorn", "config.asgi:application", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uvicorn", "config.asgi:application", "--host", "0.0.0.0", "--port", "8000"]
