@@ -36,7 +36,6 @@ AWS_QUERYSTRING_AUTH = False  # Désactive les URL signées pour les fichiers pu
 
 # Configuration des fichiers statiques
 STATICFILES_DIRS = []
-STATIC_ROOT = None
 STATIC_URL = (
     f"https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/movie/static/"
 )
