@@ -35,9 +35,24 @@ AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default="us-east-1")  # Région p
 AWS_QUERYSTRING_AUTH = False  # Désactive les URL signées pour les fichiers publics
 
 # Configuration des fichiers statiques
-STATIC_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/movie/static/"
+STATIC_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static/"
 STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 # Configuration des fichiers médias (facultatif)
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/movie/media/"
+MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/media/"
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+    },
+}
