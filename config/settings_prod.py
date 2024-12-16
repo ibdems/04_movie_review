@@ -59,3 +59,22 @@ LOGGING = {
         "level": "DEBUG",
     },
 }
+
+CSRF_TRUSTED_ORIGINS = "https://movie.devibrahima.online"
+
+# Activation des cookies sécurisés (uniquement transmis via HTTPS)
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIES_SECURE = True
+
+# Paramètres de sécurité HTTPS renforcés
+SECURE_HSTS_SECONDS = 31536000  # Active HSTS (HTTP Strict Transport Security) pendant 1 an
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Applique HSTS à tous les sous-domaines
+SECURE_HSTS_PRELOAD = True  # Indique aux navigateurs de précharger HSTS
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Empêche les navigateurs de deviner le type de contenu
+SECURE_PROXY_SSL_HEADER = (
+    "HTTP_X_FORWARDED_PROTO",
+    "https",
+)  # Indique que les requêtes passent par un proxy HTTPS
+
+# Configuration des administrateurs de l'application
+ADMINS = [("Ibrahima", "ibrahima882001@gmail.com")]
