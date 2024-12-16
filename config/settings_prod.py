@@ -35,6 +35,8 @@ AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME", default="us-east-1")  # Région p
 AWS_QUERYSTRING_AUTH = False  # Désactive les URL signées pour les fichiers publics
 
 # Configuration des fichiers statiques
+STATICFILES_DIRS = []
+STATIC_ROOT = None
 STATIC_URL = (
     f"https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/movie/static/"
 )
