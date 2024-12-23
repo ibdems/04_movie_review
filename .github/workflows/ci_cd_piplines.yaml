@@ -54,3 +54,38 @@ jobs:
 
       - name: Push Docker Image To registry
         run: docker push devibrahima/movie:latest
+
+  deploy:
+    name: Deploy to Server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Deploy application
+        env:
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          DOCKER_IMAGE: devibrahima/movie:latest
+        run: |
+          ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP << EOF
+            cd movie
+
+            # Pull the latest image
+            docker pull $DOCKER_IMAGE
+
+            # Stop and remove the existing container
+            docker-compose down
+
+            # Start updated containers
+            docker-compose up -d
+
+            # Remove unused images to clean up space
+            docker image prune -f
+          EOF
